@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+.idea/
+*.pkl
+lektion2/t10k-images.idx3-ubyte
+lektion2/train-images.idx3-ubyte
+lektion2/t10k-labels.idx1-ubyte
+lektion2/train-labels.idx1-ubyte
