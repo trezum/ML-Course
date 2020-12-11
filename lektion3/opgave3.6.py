@@ -48,7 +48,7 @@ classifier_collumn = 'Classifier'
 
 collumns = [classifier_collumn, 'Precision', 'Recall', 'f1score']
 dataframe = pd.DataFrame(columns=collumns)
-dataframe[classifier_collumn] = dataframe.Classifier.astype('string')
+dataframe[classifier_collumn] = dataframe.Classifier.astype('str')
 iterations_per_classifier = 100
 count = 0
 
@@ -56,7 +56,7 @@ for classifier in classifiers:
     while count < iterations_per_classifier:
         testResult = test_classifier(classifier)
         df2 = pd.DataFrame([[classifier.__class__.__name__, testResult.precision, testResult.recall, testResult.f1score]], columns=collumns)
-        df2[classifier_collumn] = df2.Classifier.astype('string')
+        df2[classifier_collumn] = df2.Classifier.astype('str')
         dataframe = dataframe.append(df2)
         count += 1
     count = 0
