@@ -265,7 +265,7 @@ def objective(trial):
 
     if solver == 'sgd':
         learning_rate_init = trial.suggest_loguniform('learning_rate_init', 1e-5, 1e-2)
-        shuffle = bool(trial.suggest_int('num_layers', 0, 1))
+        shuffle = bool(trial.suggest_int('shuffle', 0, 1))
         learning_rate = trial.suggest_categorical('learning_rate', ['constant', 'invscaling', 'adaptive'])
         momentum = trial.suggest_uniform('momentum', 0.0, 1.0)
         alpha = trial.suggest_loguniform('alpha', 1e-5, 1e-2)
