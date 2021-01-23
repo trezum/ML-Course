@@ -1,6 +1,8 @@
 import pandas as pd
 import os
 
+# The analysis could be more of a worst case view if High -> Low was used instead of Close -> Close
+
 # Dataset source:
 # https://www.kaggle.com/mczielinski/bitcoin-historical-data
 
