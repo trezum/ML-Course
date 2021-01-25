@@ -1,7 +1,6 @@
 import pandas as pd
 import os
-
-# The analysis could be more of a worst case view if High -> Low was used instead of Close -> Close
+import numpy as np
 
 # Dataset source:
 # https://www.kaggle.com/mczielinski/bitcoin-historical-data
@@ -18,8 +17,7 @@ if not os.path.isfile(cleaned_path):
     df.drop('Open', axis=1, inplace=True)
     df.drop('Volume_(Currency)', axis=1, inplace=True)
     df.drop('Volume_(BTC)', axis=1, inplace=True)
-    df.drop('High', axis=1, inplace=True)
-    df.drop('Low', axis=1, inplace=True)
+    df.drop('Close', axis=1, inplace=True)
     df = df.dropna(axis='rows')
     df.to_csv(cleaned_path)
 
@@ -46,24 +44,27 @@ if not os.path.isfile(resampled_path):
     print(df2.head())
     print(df2.info())
 
-    df3 = df2.resample('1D').max()
+    df3 = df2.resample('1D').agg({'High': np.max, 'Low': np.min})
 
     print(df3.info())
     print(df3.head())
 
     df3.to_csv(resampled_path)
+
 else:
     df3 = pd.read_csv(resampled_path)
 
 found = False
 
-for i in range(1200, len(df3.index)):
+
+for i in range(1, len(df3.index)):
     if not found:
         # Move the window along the rows
         for index, row in df3.iterrows():
+            # TODO: Fix this index behaving stragly, it works if loaded from file but not in one go
             if (index + i) <= len(df3.index) - 1:
-                first = df3['Close'][index]
-                last = df3['Close'][index + i]
+                first = df3['High'][index]
+                last = df3['Low'][index + i]
 
                 if first > last:
                     print(str(i) + ' days is not enough ' + str(index) + '-' + str(index + i) + ' : ' + str(first) + '-' + str(last))
@@ -78,5 +79,8 @@ for i in range(1200, len(df3.index)):
         # Print the required hold window
         print(str(i-1) + ' days is enough!')
         break
+
+# 1637 days is enough!
+
 
 
